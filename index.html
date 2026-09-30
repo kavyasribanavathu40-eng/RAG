@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f5ee" />
+    <meta name="description" content="Your thoughtful, local-first guide to seeing the world well." />
+    <title>roamly — go a little deeper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynHTKyI6Cw4Z9hFdP6ER9qsEhJWg=" crossorigin="" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Roamly home"><span class="brand-mark">r.</span><span>roamly<span class="brand-period">.</span></span></a>
+      <nav class="top-nav" aria-label="Main navigation"><a class="nav-active" href="#discover">Discover</a><a href="#field-notes">Field notes</a></nav>
+      <div class="top-right"><span class="world-clock"><span class="clock-dot"></span><span id="local-time">LOCAL TIME</span></span><button class="profile-button" aria-label="Traveler profile">S</button></div>
+    </header>
+
+    <main id="top" class="page-shell">
+      <section id="discover" class="welcome-row">
+        <div><p class="eyebrow"><span class="eyebrow-line"></span> YOUR NEXT GOOD STORY STARTS HERE</p><h1>Go a little <em>deeper.</em></h1><p class="welcome-copy">Good places. Real details. A trip that feels like yours.</p></div>
+        <div class="date-stamp"><span class="date-icon">✳</span><span><strong id="today-label">A GOOD DAY TO GO</strong><small>Where to next?</small></span></div>
+      </section>
+
+      <section class="destination-section" aria-label="Choose a destination">
+        <div class="section-heading"><div><span class="section-kicker">PICK YOUR POSTCARD</span><h2>Where to?</h2></div><label class="search-box"><span aria-hidden="true">⌕</span><input id="destination-search" type="search" placeholder="Find a city…" aria-label="Search destinations" /><kbd>/</kbd></label></div>
+        <div id="destination-list" class="destination-list" role="listbox" aria-label="Destinations"></div>
+      </section>
+
+      <section class="guide-layout" aria-label="Destination guide">
+        <div class="guide-main">
+          <article id="destination-hero" class="destination-hero"></article>
+          <div class="guide-heading-row"><div><span class="section-kicker">THE LOCAL LOWDOWN</span><h2 id="guide-title">The good-to-know</h2></div><button id="save-place" class="save-button" aria-label="Save destination" title="Save destination"><span>♡</span></button></div>
+          <section id="fact-grid" class="fact-grid" aria-label="Travel details"></section>
+          <section class="field-notes" id="field-notes"><div class="notes-title"><span class="note-spark">✳</span><div><span class="section-kicker">A FEW THINGS WORTH KNOWING</span><h3>Travel like you mean it.</h3></div></div><div id="local-tips" class="local-tips"></div></section>
+        </div>
+        <aside class="map-panel" aria-label="Map and points of interest">
+          <div class="map-topline"><div><span class="section-kicker">GET YOUR BEARINGS</span><h2>The neighborhood</h2></div><button class="map-expand" id="map-reset" aria-label="Reset map view" title="Reset map view">⤢</button></div>
+          <div class="map-filter" id="map-filters" aria-label="Filter map pins"><button class="filter-chip active" data-filter="all">Everything</button><button class="filter-chip" data-filter="landmark">Sights</button><button class="filter-chip" data-filter="food">Food</button><button class="filter-chip" data-filter="nature">Outdoors</button></div>
+          <div id="map" role="application" aria-label="Interactive map of destination"></div>
+          <div class="map-attribution">Map tiles by <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a></div>
+          <div class="nearby-heading"><span>PINNED FOR YOU</span><span id="pin-count"></span></div>
+          <div class="place-list" id="place-list"></div>
+          <div class="map-footnote"><span>↗</span> Tap any pin to see the good stuff</div>
+        </aside>
+      </section>
+      <footer class="footer"><a class="brand footer-brand" href="#top"><span class="brand-mark">r.</span><span>roamly<span class="brand-period">.</span></span></a><span>Made for the beautifully curious.</span><span class="footer-right">THE WORLD, A LITTLE CLOSER <span>✳</span></span></footer>
+    </main>
+
+    <button id="chat-launcher" class="chat-launcher" aria-label="Ask the Roamly travel guide"><span class="chat-launcher-icon">✳</span><span>Ask a local</span><span class="chat-launcher-badge" id="chat-badge"></span></button>
+    <section id="chat-panel" class="chat-panel" aria-label="Roamly travel assistant" aria-hidden="true">
+      <header class="chat-header"><div class="chat-avatar">r.</div><div class="chat-heading"><strong>Your Roamly guide</strong><span><i id="chat-status-dot"></i><span id="chat-status">Checking local guide…</span></span></div><button class="chat-close" id="chat-close" aria-label="Close chat">×</button></header>
+      <div class="chat-context"><span>✳</span> Asking about <strong id="chat-city">Kyoto, Japan</strong></div>
+      <div class="chat-messages" id="chat-messages" aria-live="polite"></div>
+      <div class="suggestion-row" id="suggestions"><button>What's a great day here?</button><button>How much should I budget?</button></div>
+      <form id="chat-form" class="chat-form"><label class="sr-only" for="chat-input">Ask your travel question</label><textarea id="chat-input" placeholder="Ask me anything about the trip…" rows="1" maxlength="2000"></textarea><button id="chat-send" type="submit" aria-label="Send message">↑</button></form>
+      <div class="chat-powered">LOCAL AI · YOUR QUESTIONS STAY ON YOUR MACHINE</div>
+    </section>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="app.js"></script>
+  </body>
+</html>
